@@ -1,0 +1,145 @@
+@startuml
+
+
+title Mastermind MVP - Class Diagram Gabriel
+
+package mastermindmvp{
+
+    abstract class MastermindMVP{
+    }
+    class ConsoleMastermind{
+    }
+    class GraphicsMastermind{
+    }
+    
+}
+package mastermindmvp.types{
+
+    enum Color{
+    }
+    enum Error{
+    }
+
+}
+package mastermindmvp.models{
+
+    abstract class Combination{
+    }
+    class Game{
+    }
+    class ProposedCombination{
+    }
+    class Result{
+    }
+    class SecretCombination{
+    }
+    class Session{
+    }
+    class State{
+    }
+    enum StateValue{
+    }
+}
+package mastermindmvp.controllers{
+
+    abstract class Controller{
+    }
+    class StartController{
+    }
+    class ResumeController{
+    }
+    class ProposalController{
+    }
+}
+
+package mastermindmvp.views{
+
+    class ColorView{
+    }
+    
+    class ErrorView{
+    }
+    enum MessageView{
+    } 
+
+}
+package mastermindmvp.views.console {
+    class AttemptsView{
+    }
+    class ColorViewCons{
+    }
+    class ErrorViewCons{
+    }
+    class GameView{
+    }
+    class StartView{
+    }
+    class ProposedCombinationView{
+    }
+    class SecretCombinationView{
+    }
+    class ResumeView{
+    }
+    class ResultView{
+    }
+}
+
+package santatecla.utils {
+
+    abstract class WithConsoleView{
+    }
+    class Console{
+    }
+    class YesNoDialog{
+    }
+}
+
+MastermindMVP *-up-> ConsoleMastermind
+MastermindMVP *-up-> GraphicsMastermind
+MastermindMVP *-down-> Controller
+
+Controller <|-down- StartController
+Controller <|-down- ProposalController
+Controller <|-down- ResumeController
+ProposalController <-left-* MessageView
+ProposalController <-left-* ErrorView
+ProposalController <-left-* ColorView
+ProposalController *-up-> SecretCombinationView
+
+StartController <-down-* Session
+ProposalController <-down-* Session
+ResumeController <-down-* Session
+
+Combination <|-down- ProposedCombination
+Combination <|-down- SecretCombination 
+Session *-down-> State
+Session *-down-> Game
+Game *-up-> ProposedCombination
+Game *-up-> SecretCombination
+Game *-up-> Result
+State --> StateValue
+
+ColorView -up-> Color
+ErrorView -up-> Error
+StartView <-down-* StartController
+ProposedCombinationView <-down-* ProposalController
+ResumeView <-down-* ResumeController
+ResumeView <-down-*YesNoDialog
+
+ColorView <|-down- ColorViewCons
+ErrorView <|-down- ErrorViewCons
+
+GameView <-up-* ResultView
+GameView <-up-* AttemptsView
+
+ProposalController *-up-> GameView
+
+WithConsoleView <|-up- AttemptsView
+WithConsoleView <|-up- GameView
+WithConsoleView <|-up- StartView
+WithConsoleView <|-up- ProposedCombinationView
+WithConsoleView <|-up- SecretCombinationView
+WithConsoleView <|-up- ResultView
+WithConsoleView -down-> Console
+
+@enduml
